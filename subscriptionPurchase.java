@@ -8,8 +8,8 @@ class SubscriptionPurchase extends Purchase {
     }
 
     // Parameterized Constructor
-    SubscriptionPurchase(String description, double amount, String date, int subscriptionID) {
-        super(description, amount, date);
+    SubscriptionPurchase(String description, String date, double amount, int subscriptionID) {
+        super(description, date, amount);
         this.subscriptionID = subscriptionID;
     }
 
