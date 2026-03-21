@@ -17,7 +17,7 @@ class Refund {
 
     //Use case: Process refund
     //Processes the refund
-    public boolean processRefund(Account accountID, double amount) {
+    public boolean processRefund(int accountID, double amount) {
         return false;
     }
  
