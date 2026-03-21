@@ -1,15 +1,17 @@
 
 class Account{
     //instance variables
+    private static int numOfAccounts = 0;
     private int accountID;
-    private string username;
-    private string password;
-    private string email;
-    private string address;
-    private string creditCardNumber;
-    private string expDate;
-    private string cvv;
+    private String username;
+    private String password;
+    private String email;
+    private String address;
+    private String creditCardNumber;
+    private String expDate;
+    private String cvv;
     private double balance;
+    
     
     // Default Constructor
     Account(){
@@ -20,8 +22,8 @@ class Account{
     }
     
     //Parameterized Constructor
-    Account(string username, string password, string email, string address, 
-            string creditCardNumber, string expDate, string cvv){
+    Account(String username, String password, String email, String address, 
+            String creditCardNumber, String expDate, String cvv){
                 
         this.accountID = numOfAccounts++;
         this.username = username;
@@ -35,23 +37,23 @@ class Account{
     }
     
     //accessor methods
-    public string getUsername(){return username;}
-    public string getPassword(){return password;}
-    public string getEmail(){return email;}
-    public string getAddress(){return address;}
-    public string getCreditCardNumber(){return creditCardNumber;}
-    public string getExpDate(){return expDate;}
-    public string getCVV(){return cvv;}
-    public string getBalance(){return balance;}
+    public String getUsername(){return username;}
+    public String getPassword(){return password;}
+    public String getEmail(){return email;}
+    public String getAddress(){return address;}
+    public String getCreditCardNumber(){return creditCardNumber;}
+    public String getExpDate(){return expDate;}
+    public String getCVV(){return cvv;}
+    public double getBalance(){return balance;}
     
     //modifier methods
-    public void setUsername(string newUsername){this.username = newUsername;}
-    public void setPassword(string newPassword){this.password = newPassword;}
-    public void setEmail(string newEmail){this.email = newEmail;}
-    public void setAddress(string newAddress){this.address = newAddress;}
-    public void setCreditCardNumber(string newCreditCardNumber){this.creditCardNumber = newCreditCardNumber;}
-    public void setExpDate(string newExpDate){this.expDate = newExpDate}
-    public void setCVV(string newCVV){this.cvv = newCVV;}
-    public void setBalance(int newBalance){this.balance = newBalance;}
+    public void setUsername(String newUsername){this.username = newUsername;}
+    public void setPassword(String newPassword){this.password = newPassword;}
+    public void setEmail(String newEmail){this.email = newEmail;}
+    public void setAddress(String newAddress){this.address = newAddress;}
+    public void setCreditCardNumber(String newCreditCardNumber){this.creditCardNumber = newCreditCardNumber;}
+    public void setExpDate(String newExpDate){this.expDate = newExpDate;}
+    public void setCVV(String newCVV){this.cvv = newCVV;}
+    public void setBalance(double newBalance){this.balance = newBalance;}
     
 }
