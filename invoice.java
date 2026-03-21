@@ -20,4 +20,10 @@ class Invoice {
 
     // Modifiers
     public void setAmount(double amount) { this.amount = amount; }
+
+    //Use case: Generate invoice 
+    //Creates invoice for missed purchase
+    public static Invoice generateInvoice(double amount, String email) {
+        return null;
+    }
 }

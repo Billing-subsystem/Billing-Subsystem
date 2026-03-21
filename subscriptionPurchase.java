@@ -22,4 +22,5 @@ class SubscriptionPurchase extends Purchase {
     public void setSubscriptionID(int subscriptionID) {
         this.subscriptionID = subscriptionID;
     }
+
 }

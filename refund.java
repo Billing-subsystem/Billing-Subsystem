@@ -14,4 +14,11 @@ class Refund {
 
     // Modifier
     public void setPurchaseID(int purchaseID) { this.purchaseID = purchaseID; }
+
+    //Use case: Process refund
+    //Processes the refund
+    public boolean processRefund(Account accountID, double amount) {
+        return false;
+    }
+ 
 }

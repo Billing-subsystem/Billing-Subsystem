@@ -55,5 +55,24 @@ class Account{
     public void setExpDate(String newExpDate){this.expDate = newExpDate;}
     public void setCVV(String newCVV){this.cvv = newCVV;}
     public void setBalance(double newBalance){this.balance = newBalance;}
+
+    //Use Case: Log in
+    //Logs in an existing user
+    public boolean logIn(String email, String password) {
+        return false;
+    }
+
+    //Use Case: Create Account
+    //Creates the account for the user
+    public static Account signUp(String username, String password, String email) {
+        return null;
+    }
+
+    //Use case: Update Payment Method
+    //Updates the payment method
+    public boolean updatePaymentMethod(String creditCardNumber, String expDate, String cvv) {
+        return false;
+    }
+
     
 }

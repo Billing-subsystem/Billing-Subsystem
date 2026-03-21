@@ -29,4 +29,11 @@ class Receipt {
     public void setPaymentAmount(double paymentAmount) { this.paymentAmount = paymentAmount; }
     public void setPaymentDate(String paymentDate) { this.paymentDate = paymentDate; }
     public void setPaymentTime(String paymentTime) { this.paymentTime = paymentTime; }
+
+     // Use case: Send Receipt
+    // Sends the receipt to the customer via email
+    public boolean sendReceipt(String email) {
+        return false;
+    }
+
 }

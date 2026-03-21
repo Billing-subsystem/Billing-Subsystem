@@ -30,4 +30,17 @@ class Purchase {
     public void setDescription(String description) { this.description = description; }
     public void setDate(String date) { this.date = date; }
     public void setAmount(double amount) { this.amount = amount; }
+
+    //Use case: deny purchase
+    //Denies the user's purchase 
+    public boolean denyPurchase() {
+        return false;
+    }
+
+    // Use case: Pay Bill
+    // Makes payment using stored billing information
+    public boolean payBill(String creditCardNumber, String expDate, String cvv) {
+        return false;
+    }
+    
 }

@@ -35,4 +35,11 @@ class Subscription {
     public void setStatus(String status) { this.status = status; }
     public void setFrequency(String frequency) { this.frequency = frequency; }
     public void setInitialDate(String initialDate) { this.initialDate = initialDate; }
+
+
+    // Use case: Cancel subscription
+    // Cancels subscription
+    public boolean cancelSubscription() {
+        return false;
+    }
 }
