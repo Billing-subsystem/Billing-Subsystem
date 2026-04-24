@@ -11,7 +11,7 @@ public class Account{
     private double balance;
 
     //Default Constructor
-    Account(){
+    public Account(){
         //total number of accounts + 1 to ensure no repeat numbers
         //numOfAccounts is a global variable
         this.accountID = numOfAccounts++;
@@ -19,16 +19,14 @@ public class Account{
     }
     
     //Parameterized Constructor
-    Account(String username, String password, String email, String address, 
-            String creditCardNumber, String expDate, String cvv){
-                
-        this.accountID = numOfAccounts++;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.address = address;
-        this.balance = 0;
-    }
+public Account(String username, String password, String email, String address, double balance) {
+    this.accountID = numOfAccounts++;
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.address = address;
+    this.balance = balance;
+}
     
     //Accessor methods
     public String getUsername(){return username;}

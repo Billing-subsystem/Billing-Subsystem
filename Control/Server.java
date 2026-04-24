@@ -3,6 +3,8 @@ package Control;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import Model.DAO.AccountDao;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.DirectoryStream;
@@ -20,11 +22,62 @@ public class Server {
 
         // Serve all files in View under /
         staticServe("./View", "/");
+        
+        //api endpoints
+         SERVER_INSTANCE.createContext("/api/login", (exchange) -> {
+            addCorsHeaders(exchange);
+            String query = exchange.getRequestURI().getQuery();
+            String email = query.split("&")[0].split("=")[1];
+            String password = query.split("&")[1].split("=")[1];
+            AccountDao dao = new AccountDao();
+            Responses.sendString(dao.login(email, password), exchange);
+        });
+
+        SERVER_INSTANCE.createContext("/api/register", (exchange) -> {
+            addCorsHeaders(exchange);
+            String query = exchange.getRequestURI().getQuery();
+            String username = query.split("&")[0].split("=")[1];
+            String email = query.split("&")[1].split("=")[1];
+            String password = query.split("&")[2].split("=")[1];
+            AccountDao dao = new AccountDao();
+            Responses.sendString(dao.register(username, email, password), exchange);
+        });
+
+        SERVER_INSTANCE.createContext("/api/account", (exchange) -> {
+            addCorsHeaders(exchange);
+            String query = exchange.getRequestURI().getQuery();
+            long id = Long.parseLong(query.split("=")[1]);
+            AccountDao dao = new AccountDao();
+            Responses.sendString(dao.getAccountJson(id), exchange);
+        });
+
+        SERVER_INSTANCE.createContext("/api/subscription", (exchange) -> {
+            addCorsHeaders(exchange);
+            String query = exchange.getRequestURI().getQuery();
+            long id = Long.parseLong(query.split("=")[1]);
+            AccountDao dao = new AccountDao();
+            Responses.sendString(dao.getSubscriptionJson(id), exchange);
+        });
+
+        SERVER_INSTANCE.createContext("/api/updateSubscription", (exchange) -> {
+            addCorsHeaders(exchange);
+            String query = exchange.getRequestURI().getQuery();
+            long id = Long.parseLong(query.split("&")[0].split("=")[1]);
+            double price = Double.parseDouble(query.split("&")[1].split("=")[1]);
+            AccountDao dao = new AccountDao();
+            dao.updateBalance(id, price);
+            Responses.sendString("{\"success\":true}", exchange);
+        });
 
 
         SERVER_INSTANCE.setExecutor(null);
         SERVER_INSTANCE.start();
         System.out.println("Server listening on: http://localhost:" + port);
+    }
+    
+    private void addCorsHeaders(HttpExchange exchange) {
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().add("Content-Type", "application/json");
     }
 
     /**
