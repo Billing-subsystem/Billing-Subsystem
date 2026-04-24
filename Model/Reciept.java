@@ -1,4 +1,6 @@
-class Receipt {
+package Model;
+
+public class Reciept {
     private static int numOfReceipts = 0;
     private int receiptID;
     private double paymentAmount;
@@ -6,13 +8,13 @@ class Receipt {
     private String paymentTime;
 
     // Default Constructor
-    Receipt() {
+    Reciept() {
         this.receiptID = numOfReceipts++;
         this.paymentAmount = 0;
     }
 
     // Parameterized Constructor
-    Receipt(double paymentAmount, String paymentDate, String paymentTime) {
+    Reciept(double paymentAmount, String paymentDate, String paymentTime) {
         this.receiptID = numOfReceipts++;
         this.paymentAmount = paymentAmount;
         this.paymentDate = paymentDate;
@@ -30,7 +32,7 @@ class Receipt {
     public void setPaymentDate(String paymentDate) { this.paymentDate = paymentDate; }
     public void setPaymentTime(String paymentTime) { this.paymentTime = paymentTime; }
 
-     // Use case: Send Receipt
+     // Use case: Send Model.Receipt
     // Sends the receipt to the customer via email
     public boolean sendReceipt(String email) {
         return false;

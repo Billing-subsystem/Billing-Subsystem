@@ -1,4 +1,6 @@
-class Invoice {
+package Model;
+
+public class Invoice {
     private static int numOfInvoices = 0;
     private int invoiceID;
     private double amount;

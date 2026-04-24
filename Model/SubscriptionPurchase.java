@@ -1,10 +1,12 @@
-class SubscriptionPurchase extends Purchase {
+package Model;
+
+public class SubscriptionPurchase extends Purchase {
 
     private int subscriptionID;
 
     // Default Constructor
     SubscriptionPurchase() {
-        super(); // calls Purchase default constructor
+        super(); // calls Model.Purchase default constructor
     }
 
     // Parameterized Constructor

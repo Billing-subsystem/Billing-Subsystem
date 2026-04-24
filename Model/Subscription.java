@@ -1,5 +1,6 @@
+package Model;
 
-class Subscription {
+public class Subscription {
     
     private static int numOfSubscriptions = 0;
     private int subscriptionID;

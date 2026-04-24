@@ -1,4 +1,6 @@
-class Refund {
+package Model;
+
+public class Refund {
     private int purchaseID;
 
     // Default Constructor

@@ -1,4 +1,6 @@
-class Purchase {
+package Model;
+
+public class Purchase {
     
     private static int numOfPurchases = 0;
     private int purchaseID;
