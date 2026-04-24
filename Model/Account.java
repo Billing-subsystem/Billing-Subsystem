@@ -1,64 +1,78 @@
 package Model;
 
-public class Account{
-    //Instance variables
-    private static int numOfAccounts = 0;
-    private int accountID;
+public class Account {
+    private long accountID;
     private String username;
-    private String password;
     private String email;
-    private String address;
+    private String password;
     private double balance;
+    private String creditCardNumber;
 
-    //Default Constructor
-    Account(){
-        //total number of accounts + 1 to ensure no repeat numbers
-        //numOfAccounts is a global variable
-        this.accountID = numOfAccounts++;
-        this.balance = 0;
-    }
-    
-    //Parameterized Constructor
-    Account(String username, String password, String email, String address, 
-            String creditCardNumber, String expDate, String cvv){
-                
-        this.accountID = numOfAccounts++;
+    public Account(long accountID, String username, String email, String password, double balance, String creditCardNumber) {
+        this.accountID = accountID;
         this.username = username;
-        this.password = password;
         this.email = email;
-        this.address = address;
-        this.balance = 0;
-    }
-    
-    //Accessor methods
-    public String getUsername(){return username;}
-    public String getPassword(){return password;}
-    public String getEmail(){return email;}
-    public String getAddress(){return address;}
-    public double getBalance(){return balance;}
-    
-    //Modifier methods
-    public void setUsername(String newUsername){this.username = newUsername;}
-    public void setPassword(String newPassword){this.password = newPassword;}
-    public void setEmail(String newEmail){this.email = newEmail;}
-    public void setAddress(String newAddress){this.address = newAddress;}
-    public void setBalance(double newBalance){this.balance = newBalance;}
-
-    //Use Case: Log in
-    //Logs in an existing user
-    public boolean logIn(String email, String password) {
-        return false;
+        this.password = password;
+        this.balance = balance;
+        this.creditCardNumber = creditCardNumber;
     }
 
-    //Use Case: Create Model.Account
-    //Creates the account for the user
-    public static Account signUp(String username, String password, String email) {
-        return null;
+    public long getAccountID() {
+        return accountID;
     }
 
-    //Use case: Update Payment Method
-    //Updates the payment method
-    public boolean updatePaymentMethod(String creditCardNumber, String expDate, String cvv) {
-        return false;
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountID=" + accountID +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", balance=" + balance +
+                ", creditCardNumber='" + creditCardNumber + '\'' +
+                '}';
     }
 }

@@ -1,48 +1,46 @@
 package Model;
 
 public class Purchase {
-    
-    private static int numOfPurchases = 0;
-    private int purchaseID;
-    private String description;
-    private String date;
-    private double amount;
-    
+    long purchaseID;
+    String date;
+    long subscriptionID;
 
-    // Default Constructor
-    Purchase() {
-        this.purchaseID = numOfPurchases++;
-    }
-
-    // Parameterized Constructor
-    Purchase(String description, String date, double amount) {
-        this.purchaseID = numOfPurchases++;
-        this.description = description;
+    public Purchase(long purchaseID, String date, long subscriptionID) {
+        this.purchaseID = purchaseID;
         this.date = date;
-        this.amount = amount;
+        this.subscriptionID = subscriptionID;
     }
 
-    // Accessors
-    public int getPurchaseID() { return purchaseID; }
-    public String getDescription() { return description; }
-    public String getDate() { return date; }
-    public double getAmount() { return amount; }
-    
-    // Modifiers
-    public void setDescription(String description) { this.description = description; }
-    public void setDate(String date) { this.date = date; }
-    public void setAmount(double amount) { this.amount = amount; }
-
-    //Use case: deny purchase
-    //Denies the user's purchase 
-    public boolean denyPurchase() {
-        return false;
+    public long getPurchaseID() {
+        return purchaseID;
     }
 
-    // Use case: Pay Bill
-    // Makes payment using stored billing information
-    public boolean payBill(String creditCardNumber, String expDate, String cvv) {
-        return false;
+    public void setPurchaseID(long purchaseID) {
+        this.purchaseID = purchaseID;
     }
-    
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public long getSubscriptionID() {
+        return subscriptionID;
+    }
+
+    public void setSubscriptionID(long subscriptionID) {
+        this.subscriptionID = subscriptionID;
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "purchaseID=" + purchaseID +
+                ", date='" + date + '\'' +
+                ", subscriptionID=" + subscriptionID +
+                '}';
+    }
 }

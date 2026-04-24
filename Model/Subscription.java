@@ -1,46 +1,59 @@
 package Model;
 
 public class Subscription {
-    
-    private static int numOfSubscriptions = 0;
-    private int subscriptionID;
-    private double amount;
-    private String status;
-    private String frequency;
-    private String initialDate;
+    private enum Status {ACTIVE, INACTIVE}
 
-    // Default Constructor
-    Subscription() {
-        this.subscriptionID = numOfSubscriptions++;
-        this.amount = 0;
+    private long subscriptionID;
+    private int subscriptionType;
+    private String initialDate;
+    private long accountID;
+
+    public Subscription(long subscriptionID, int subscriptionType, String initialDate, long accountID) {
+        this.subscriptionID = subscriptionID;
+        this.subscriptionType = subscriptionType;
+        this.initialDate = initialDate;
+        this.accountID = accountID;
     }
 
-    // Parameterized Constructor
-    Subscription( double amount, String status, String frequency, String initialDate) {
-        this.subscriptionID = numOfSubscriptions++;
-        this.amount = amount;
-        this.status = status;
-        this.frequency = frequency;
+    public long getSubscriptionID() {
+        return subscriptionID;
+    }
+
+    public void setSubscriptionID(long subscriptionID) {
+        this.subscriptionID = subscriptionID;
+    }
+
+    public int getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(int subscriptionType) {
+        this.subscriptionType = subscriptionType;
+    }
+
+    public String getInitialDate() {
+        return initialDate;
+    }
+
+    public void setInitialDate(String initialDate) {
         this.initialDate = initialDate;
     }
 
-    // Accessors
-    public int getSubscriptionID() { return subscriptionID; }
-    public double getAmount() { return amount; }
-    public String getStatus() { return status; }
-    public String getFrequency() { return frequency; }
-    public String getInitialDate() { return initialDate; }
+    public long getAccountID() {
+        return accountID;
+    }
 
-    // Modifiers
-    public void setAmount(double amount) { this.amount = amount; }
-    public void setStatus(String status) { this.status = status; }
-    public void setFrequency(String frequency) { this.frequency = frequency; }
-    public void setInitialDate(String initialDate) { this.initialDate = initialDate; }
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
+    }
 
-
-    // Use case: Cancel subscription
-    // Cancels subscription
-    public boolean cancelSubscription() {
-        return false;
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "subscriptionID=" + subscriptionID +
+                ", subscriptionType=" + subscriptionType +
+                ", initialDate='" + initialDate + '\'' +
+                ", accountID=" + accountID +
+                '}';
     }
 }

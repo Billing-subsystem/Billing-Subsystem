@@ -1,25 +1,57 @@
 package Model;
 
 public class CreditCard {
-    //Instance Variables
-    private String creditCardNumber;
+    private int creditCardNumber;
     private String expDate;
-    private String cvv;
+    private String CVV;
+    private long accountID;
 
-    public CreditCard (String creditCardNubmer, String expDate, String cvv) {
-        this.creditCardNumber = creditCardNubmer;
+    public CreditCard(int creditCardNumber, String expDate, String CVV, long accountID) {
+        this.creditCardNumber = creditCardNumber;
         this.expDate = expDate;
-        this.cvv = cvv;
+        this.CVV = CVV;
+        this.accountID = accountID;
     }
 
-    //Accessor Methods
-    public String getCreditCardNumber(){return creditCardNumber;}
-    public String getExpDate(){return expDate;}
-    public String getCVV(){return cvv;}
+    public int getCreditCardNumber() {
+        return creditCardNumber;
+    }
 
-    //Modifier Methods
-    public void setCreditCardNumber(String newCreditCardNumber){this.creditCardNumber = newCreditCardNumber;}
-    public void setExpDate(String newExpDate){this.expDate = newExpDate;}
-    public void setCVV(String newCVV){this.cvv = newCVV;}
+    public void setCreditCardNumber(int creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
 
+    public String getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
+    }
+
+    public String getCVV() {
+        return CVV;
+    }
+
+    public void setCVV(String CVV) {
+        this.CVV = CVV;
+    }
+
+    public long getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
+    }
+
+    @Override
+    public String toString() {
+        return "CreditCard{" +
+                "creditCardNumber='" + creditCardNumber + '\'' +
+                ", expDate='" + expDate + '\'' +
+                ", CVV='" + CVV + '\'' +
+                ", accountID='" + accountID + '\'' +
+                '}';
+    }
 }
