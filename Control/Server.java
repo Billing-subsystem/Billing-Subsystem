@@ -22,7 +22,8 @@ public class Server {
 
         // Serve all files in View under /
         staticServe("./View", "/");
-        
+        staticServe("./javascript", "/");
+
         //api endpoints
          SERVER_INSTANCE.createContext("/api/login", (exchange) -> {
             addCorsHeaders(exchange);
