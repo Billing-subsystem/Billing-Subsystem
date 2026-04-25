@@ -3,6 +3,7 @@ package DAO;
 import Model.Account;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +36,16 @@ public class AccountDao implements Dao<Account> {
     @Override
     public List<Account> getAll() throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account");
-        statement.executeBatch();
 
-        statement.executeQuery();
+        ResultSet results = statement.executeQuery();
 
+        List<Account> resultList = new ArrayList<>();
+
+        while (results.next()) {
+            resultList.add(new Account(results.getLong(1), , results.getString(2), results.getString(3), results.getString(4), results.getDouble(5), results.getString(6)));
+        }
+
+        return resultList;
     }
 
     @Override
