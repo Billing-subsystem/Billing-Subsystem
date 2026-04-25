@@ -17,5 +17,7 @@ public class CreateTables {
         creditCardDao.createTable();
         subscriptionDao.createTable();
         subscriptionTypeDao.createTable();
+
+        connection.close();
     }
 }
