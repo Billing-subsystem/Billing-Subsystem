@@ -46,18 +46,20 @@ public class AccountDao implements Dao<Account>{
 
 //Methods for server
       public String login(String email, String password) {
-        String sql = "SELECT account_ID, username, balance FROM Account WHERE email = ? AND password = ?";
+        String sql = "SELECT account_ID, username, balance, last_payment_date FROM Account WHERE email = ? AND password = ?";
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                String date = rs.getString("last_payment_date");
                 return String.format(
-                    "{\"accountId\":%d,\"username\":\"%s\",\"balance\":%.2f}",
+                    "{\"accountId\":%d,\"username\":\"%s\",\"balance\":%.2f,\"lastPaymentDate\":\"%s\"}",
                     rs.getLong("account_ID"),
                     rs.getString("username"),
-                    rs.getDouble("balance")
+                    rs.getDouble("balance"),
+                    date != null ? date : ""
                 );
             }
         } catch (SQLException e) { e.printStackTrace(); }
@@ -84,12 +86,14 @@ public class AccountDao implements Dao<Account>{
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                String date = rs.getString("last_payment_date");
                 return String.format(
-                    "{\"accountId\":%d,\"username\":\"%s\",\"email\":\"%s\",\"balance\":%.2f}",
+                    "{\"accountId\":%d,\"username\":\"%s\",\"email\":\"%s\",\"balance\":%.2f,\"lastPaymentDate\":\"%s\"}",
                     rs.getLong("account_ID"),
                     rs.getString("username"),
                     rs.getString("email"),
-                    rs.getDouble("balance")
+                    rs.getDouble("balance"),
+                    date != null ? date : ""
                 );
             }
         } catch (SQLException e) { e.printStackTrace(); }

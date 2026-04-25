@@ -35,11 +35,11 @@
     <div class="bg-slate-800 rounded-2xl p-6 w-full max-w-sm">
 
       <p class="text-slate-400 text-sm mb-1">Current balance</p>
-      <h2 class="text-white text-4xl font-bold mb-3">$0.00</h2>
+      <h2 id="balance" class="text-white text-4xl font-bold mb-3">$0.00</h2>
 
       <p class="text-slate-400 text-sm mb-6">
-        <span class="text-white font-semibold">$0.00</span> was paid on
-        <span class="text-white font-semibold">xx xx, xxxx</span>.
+        <span id="last-paid" class="text-white font-semibold">$0.00</span> was paid on
+        <span id="last-date" class="text-white font-semibold">xx xx, xxxx</span>.
       </p>
 
       <div class="flex gap-3">
@@ -53,9 +53,6 @@
 
     </div>
   </div>
-
-  </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 <script src="home.js"></script>

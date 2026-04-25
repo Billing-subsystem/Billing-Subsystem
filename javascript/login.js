@@ -2,12 +2,12 @@ document.getElementById('login-btn').addEventListener("click", ()=>{
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    fetch(fetch(`/api/login?email=${email}&password=${password}`))
+    fetch(`/api/login?email=${email}&password=${password}`)
     .then(res => res.json())
     .then(data => {
         if(data.accountId){
             localStorage.setItem('accountId', data.accountId);
-            localStorage.setItem('subscriptionPrice', data.subscriptionPrice);
+            localStorage.setItem('balance', data.balance);
             window.location.href = 'home.html';
         } else {
             document.getElementById('popup-modal').classList.remove('hidden');
