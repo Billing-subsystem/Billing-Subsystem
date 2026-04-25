@@ -9,5 +9,7 @@ public class CreateTables {
         AccountDao accountDao = new AccountDao(connection);
 
         accountDao.createTable();
+
+        connection.close();
     }
 }

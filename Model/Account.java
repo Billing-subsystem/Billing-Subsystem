@@ -71,6 +71,7 @@ public class Account {
                 "accountID=" + accountID +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", balance=" + balance +
                 ", creditCardNumber='" + creditCardNumber + '\'' +
                 '}';
