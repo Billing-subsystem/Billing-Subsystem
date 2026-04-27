@@ -7,19 +7,17 @@ public class Account {
     private String email;
     private String password;
     private double balance;
-    private String creditCardNumber;
 
-    public Account(long accountID, String username, String email, String password, double balance, String creditCardNumber) {
+    public Account(long accountID, String username, String email, String password, double balance) {
         this.accountID = accountID;
         this.username = username;
         this.email = email;
         this.password = password;
         this.balance = balance;
-        this.creditCardNumber = creditCardNumber;
     }
 
-    public Account(String username, String email, String password, double balance, String creditCardNumber) {
-        this(++accountIDTracker, username, email, password, balance, creditCardNumber);
+    public Account(String username, String email, String password, double balance) {
+        this(++accountIDTracker, username, email, password, balance);
     }
 
     public long getAccountID() {
@@ -62,14 +60,6 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getCreditCardNumber() {
-        return creditCardNumber;
-    }
-
-    public void setCreditCardNumber(String creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
-    }
-
     @Override
     public String toString() {
         return "Account{" +
@@ -78,7 +68,6 @@ public class Account {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
-                ", creditCardNumber='" + creditCardNumber + '\'' +
                 '}';
     }
 }

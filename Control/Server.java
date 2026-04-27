@@ -1,20 +1,26 @@
 package Control;
 
 import DAO.AccountDao;
+import DAO.CreditCardDao;
+import DAO.DBUtil;
 import DAO.SubscriptionDao;
+import Model.CreditCard;
 import Model.Subscription;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class Server {
     private HttpServer SERVER_INSTANCE;
     public Server(int port) throws IOException {
+        initDb();
         SERVER_INSTANCE = HttpServer.create(new InetSocketAddress(port), 0);
 
         // Serve a default html for root path /
@@ -84,11 +90,65 @@ public class Server {
         });
 
 
+        SERVER_INSTANCE.createContext("/api/saveCreditCard", (exchange) -> {
+            addCorsHeaders(exchange);
+            try {
+                String query = exchange.getRequestURI().getQuery();
+                java.util.Map<String, String> params = new java.util.HashMap<>();
+                for (String pair : query.split("&")) {
+                    String[] kv = pair.split("=", 2);
+                    params.put(kv[0], kv.length > 1 ? java.net.URLDecoder.decode(kv[1], "UTF-8") : "");
+                }
+                long accountId = Long.parseLong(params.get("accountId"));
+                long cardNumber = Long.parseLong(params.get("cardNumber"));
+                String expDate = params.get("expDate");
+                String cvv = params.get("cvv");
+                CreditCardDao dao = new CreditCardDao();
+                dao.save(new CreditCard(cardNumber, expDate, cvv, accountId));
+                Responses.sendString("{\"success\":true}", exchange);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Responses.sendString("{\"success\":false}", exchange);
+            }
+        });
+
         SERVER_INSTANCE.setExecutor(null);
         SERVER_INSTANCE.start();
         System.out.println("Server listening on: http://localhost:" + port);
     }
     
+    private void initDb() {
+        try {
+            Connection conn = DBUtil.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.execute("CREATE TABLE IF NOT EXISTS Account (" +
+                "accountID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "username VARCHAR(15)," +
+                "email VARCHAR(30)," +
+                "password VARCHAR(15)," +
+                "balance DOUBLE," +
+                "last_payment_date TEXT)");
+            stmt.execute("CREATE TABLE IF NOT EXISTS CreditCard (" +
+                "creditCardNumber INTEGER," +
+                "expDate VARCHAR(5)," +
+                "CVV INTEGER," +
+                "accountID INTEGER," +
+                "FOREIGN KEY (accountID) REFERENCES Account(accountID)," +
+                "PRIMARY KEY (creditCardNumber, accountID))");
+            stmt.execute("CREATE TABLE IF NOT EXISTS Subscription (" +
+                "subscriptionID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "accountID INTEGER," +
+                "subscriptionType INTEGER," +
+                "status VARCHAR(10)," +
+                "initialDate VARCHAR(20)," +
+                "FOREIGN KEY (accountID) REFERENCES Account(accountID))");
+            try { stmt.execute("ALTER TABLE Account DROP COLUMN creditCardNumber"); }
+            catch (SQLException ignored) {}
+        } catch (SQLException e) {
+            System.out.println("DB init error: " + e.getMessage());
+        }
+    }
+
     private void addCorsHeaders(HttpExchange exchange) {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         exchange.getResponseHeaders().add("Content-Type", "application/json");

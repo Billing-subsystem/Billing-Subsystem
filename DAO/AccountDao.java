@@ -83,7 +83,7 @@ public class AccountDao implements Dao<Account> {
 
     @Override
     public Optional<Account> get(Account account) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account WHERE accountID = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT accountID, username, email, password, balance FROM Account WHERE accountID = ?");
         statement.setLong(1, account.getAccountID());
         ResultSet searchResult = statement.executeQuery();
 
@@ -92,38 +92,28 @@ public class AccountDao implements Dao<Account> {
         String email = searchResult.getString(3);
         String password = searchResult.getString(4);
         double balance = searchResult.getDouble(5);
-        String creditCardNumber = searchResult.getString(6);
 
-
-        Account resultAccount = new Account(accountID, username, email, password, balance, creditCardNumber);
-
-        return Optional.of(resultAccount);
+        return Optional.of(new Account(accountID, username, email, password, balance));
     }
 
     @Override
     public List<Account> getAll() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account");
-
+        PreparedStatement statement = connection.prepareStatement("SELECT accountID, username, email, password, balance FROM Account");
         ResultSet results = statement.executeQuery();
-
         List<Account> resultList = new ArrayList<>();
-
         while (results.next()) {
-            resultList.add(new Account(results.getLong(1), results.getString(2), results.getString(3), results.getString(4), results.getDouble(5), results.getString(6)));
+            resultList.add(new Account(results.getLong(1), results.getString(2), results.getString(3), results.getString(4), results.getDouble(5)));
         }
-
         return resultList;
     }
 
     @Override
     public void save(Account account) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (NULL, ?, ?, ?, ?, ?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (NULL, ?, ?, ?, ?)");
         statement.setString(1, account.getUsername());
         statement.setString(2, account.getEmail());
         statement.setString(3, account.getPassword());
         statement.setDouble(4, account.getBalance());
-        statement.setString(5, account.getCreditCardNumber());
-
         statement.executeUpdate();
     }
 
@@ -133,16 +123,14 @@ public class AccountDao implements Dao<Account> {
                 "username = ?," +
                 "email = ?," +
                 "password = ?," +
-                "balance = ?," +
-                "creditCardNumber = ? " +
+                "balance = ? " +
                 "WHERE accountID = ?");
 
         statement.setString(1, params[1]);
         statement.setString(2, params[2]);
         statement.setString(3, params[3]);
         statement.setDouble(4, Double.parseDouble(params[4]));
-        statement.setString(5, params[5]);
-        statement.setLong(6, Long.parseLong(params[0]));
+        statement.setLong(5, Long.parseLong(params[0]));
 
         statement.executeUpdate();
     }
@@ -151,7 +139,6 @@ public class AccountDao implements Dao<Account> {
     public void delete(Account account) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("DELETE FROM Account WHERE accountID = ?");
         statement.setLong(1, account.getAccountID());
-
         statement.execute();
     }
 
@@ -163,7 +150,7 @@ public class AccountDao implements Dao<Account> {
                 "email VARCHAR (30)," +
                 "password VARCHAR (15)," +
                 "balance DOUBLE," +
-                "creditCardNumber VARCHAR (19)" +
+                "last_payment_date TEXT" +
                 ");";
 
         Statement statement = connection.createStatement();
@@ -171,7 +158,7 @@ public class AccountDao implements Dao<Account> {
     }
 
     public Optional<Account> getUsername(String searchUserName) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account WHERE username = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT accountID, username, email, password, balance FROM Account WHERE username = ?");
         statement.setString(1, searchUserName);
         ResultSet searchResult = statement.executeQuery();
 
@@ -180,12 +167,7 @@ public class AccountDao implements Dao<Account> {
         String email = searchResult.getString(3);
         String password = searchResult.getString(4);
         double balance = searchResult.getDouble(5);
-        String creditCardNumber = searchResult.getString(6);
 
-
-        Account resultAccount = new Account(accountID, username, email, password, balance, creditCardNumber);
-
-        return Optional.of(resultAccount);
+        return Optional.of(new Account(accountID, username, email, password, balance));
     }
-
 }

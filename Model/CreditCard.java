@@ -1,23 +1,23 @@
 package Model;
 
 public class CreditCard {
-    private int creditCardNumber;
+    private long creditCardNumber;
     private String expDate;
     private String CVV;
     private long accountID;
 
-    public CreditCard(int creditCardNumber, String expDate, String CVV, long accountID) {
+    public CreditCard(long creditCardNumber, String expDate, String CVV, long accountID) {
         this.creditCardNumber = creditCardNumber;
         this.expDate = expDate;
         this.CVV = CVV;
         this.accountID = accountID;
     }
 
-    public int getCreditCardNumber() {
+    public long getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(int creditCardNumber) {
+    public void setCreditCardNumber(long creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
