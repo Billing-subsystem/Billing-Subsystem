@@ -31,7 +31,7 @@ public class SubscriptionDao implements Dao<Subscription> {
     }
 
     @Override
-    public void save(Subscription subscription) throws SQLException {
+    public String save(Subscription subscription) throws SQLException {
         String sql = "INSERT INTO Subscription (accountID, subscriptionType, status, initialDate) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setLong(1, subscription.getAccountID());
@@ -39,6 +39,7 @@ public class SubscriptionDao implements Dao<Subscription> {
         statement.setString(3, "ACTIVE");
         statement.setString(4, subscription.getInitialDate());
         statement.executeUpdate();
+        return sql;
     }
 
     @Override

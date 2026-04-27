@@ -10,7 +10,7 @@ public interface Dao<T> {
 
     List<T> getAll() throws SQLException;
 
-    void save (T t) throws SQLException;
+    String save (T t) throws SQLException;
 
     void update (T t, String[] params) throws SQLException;
 

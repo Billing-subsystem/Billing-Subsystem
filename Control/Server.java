@@ -1,9 +1,7 @@
 package Control;
 
-import DAO.AccountDao;
-import DAO.CreditCardDao;
-import DAO.DBUtil;
-import DAO.SubscriptionDao;
+import DAO.*;
+import Model.Account;
 import Model.CreditCard;
 import Model.Subscription;
 import com.sun.net.httpserver.HttpExchange;
@@ -19,9 +17,11 @@ import java.sql.Statement;
 
 public class Server {
     private HttpServer SERVER_INSTANCE;
-    public Server(int port) throws IOException {
-        initDb();
+    public Server(int port) throws IOException, SQLException {
         SERVER_INSTANCE = HttpServer.create(new InetSocketAddress(port), 0);
+        Connection connection = DBUtil.getConnection();
+        AccountDao accountDao = new AccountDao(connection);
+        CreditCardDao creditCardDao = new CreditCardDao(connection);
 
         // Serve a default html for root path /
         SERVER_INSTANCE.createContext("/", (exchange) -> {
@@ -53,8 +53,9 @@ public class Server {
             String email = query.split("&")[1].split("=")[1];
             String password = query.split("&")[2].split("=")[1];
             try {
-                AccountDao dao = new AccountDao();
-                Responses.sendString(dao.register(username, email, password), exchange);
+                Account account = new Account(username, email, password, 0.0);
+
+                Responses.sendString(accountDao.save(account), exchange);
             } catch (Exception e) {
                 Responses.sendString("{\"success\":false}", exchange);
             }
@@ -65,8 +66,7 @@ public class Server {
             String query = exchange.getRequestURI().getQuery();
             long id = Long.parseLong(query.split("=")[1]);
             try {
-                AccountDao dao = new AccountDao();
-                Responses.sendString(dao.getAccountJson(id), exchange);
+                Responses.sendString(accountDao.getAccountJson(id), exchange);
             } catch (Exception e) {
                 Responses.sendString("{}", exchange);
             }
@@ -78,7 +78,6 @@ public class Server {
             long id = Long.parseLong(query.split("&")[0].split("=")[1]);
             double price = Double.parseDouble(query.split("&")[1].split("=")[1]);
             try {
-                AccountDao accountDao = new AccountDao();
                 accountDao.updateBalance(id, price);
                 int subType = price == 29 ? 1 : price == 99 ? 2 : 3;
                 SubscriptionDao subDao = new SubscriptionDao();
@@ -103,8 +102,8 @@ public class Server {
                 long cardNumber = Long.parseLong(params.get("cardNumber"));
                 String expDate = params.get("expDate");
                 String cvv = params.get("cvv");
-                CreditCardDao dao = new CreditCardDao();
-                dao.save(new CreditCard(cardNumber, expDate, cvv, accountId));
+                CreditCard creditCard = new CreditCard(cardNumber, expDate, cvv, accountId);
+                creditCardDao.save(creditCard);
                 Responses.sendString("{\"success\":true}", exchange);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -127,7 +126,7 @@ public class Server {
                 "email VARCHAR(30)," +
                 "password VARCHAR(15)," +
                 "balance DOUBLE," +
-                "last_payment_date TEXT)");
+                "last_payment_date VARCHAR(20))");
             stmt.execute("CREATE TABLE IF NOT EXISTS CreditCard (" +
                 "creditCardNumber INTEGER," +
                 "expDate VARCHAR(5)," +

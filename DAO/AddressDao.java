@@ -24,8 +24,9 @@ public class AddressDao implements Dao<Address> {
     }
 
     @Override
-    public void save(Address address) throws SQLException {
+    public String save(Address address) throws SQLException {
 
+        return null;
     }
 
     @Override

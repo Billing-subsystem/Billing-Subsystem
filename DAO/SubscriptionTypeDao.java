@@ -26,8 +26,9 @@ public class SubscriptionTypeDao implements Dao<SubscriptionType> {
     }
 
     @Override
-    public void save(SubscriptionType subscriptionType) throws SQLException {
+    public String save(SubscriptionType subscriptionType) throws SQLException {
 
+        return null;
     }
 
     @Override

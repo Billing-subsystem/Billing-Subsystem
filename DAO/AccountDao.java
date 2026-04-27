@@ -19,13 +19,14 @@ public class AccountDao implements Dao<Account> {
     }
 
     public String login(String email, String password) {
-        String sql = "SELECT accountID, username, balance, last_payment_date FROM Account WHERE email = ? AND password = ?";
+        String sql = "SELECT accountID, username, balance FROM Account WHERE email = ? AND password = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
+            System.out.println(rs.getLong("accountID"));
             if (rs.next()) {
-                String date = rs.getString("last_payment_date");
+                String date = rs.getString("balance");
                 return String.format(
                     "{\"accountId\":%d,\"username\":\"%s\",\"balance\":%.2f,\"lastPaymentDate\":\"%s\"}",
                     rs.getLong("accountID"),
@@ -36,18 +37,6 @@ public class AccountDao implements Dao<Account> {
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return "{\"accountId\":null}";
-    }
-
-    public String register(String username, String email, String password) {
-        String sql = "INSERT INTO Account (username, email, password, balance) VALUES (?, ?, ?, 0)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            stmt.setString(2, email);
-            stmt.setString(3, password);
-            stmt.executeUpdate();
-            return "{\"success\":true}";
-        } catch (SQLException e) { e.printStackTrace(); }
-        return "{\"success\":false}";
     }
 
     public String getAccountJson(long id) {
@@ -108,13 +97,16 @@ public class AccountDao implements Dao<Account> {
     }
 
     @Override
-    public void save(Account account) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (NULL, ?, ?, ?, ?)");
-        statement.setString(1, account.getUsername());
-        statement.setString(2, account.getEmail());
-        statement.setString(3, account.getPassword());
-        statement.setDouble(4, account.getBalance());
-        statement.executeUpdate();
+    public String save(Account account) throws SQLException {
+        try (            PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (NULL, ?, ?, ?, ?, NULL)");) {
+            statement.setString(1, account.getUsername());
+            statement.setString(2, account.getEmail());
+            statement.setString(3, account.getPassword());
+            statement.setDouble(4, account.getBalance());
+            statement.executeUpdate();
+            return "{\"success\":true}";
+        } catch (SQLException e) { e.printStackTrace(); }
+        return "{\"success\":false}";
     }
 
     @Override
@@ -146,11 +138,11 @@ public class AccountDao implements Dao<Account> {
     public void createTable() throws SQLException {
         String instruction = "CREATE TABLE IF NOT EXISTS Account (" +
                 "accountID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "username VARCHAR (15)," +
-                "email VARCHAR (30)," +
+                "username VARCHAR (15) UNIQUE," +
+                "email VARCHAR (30) UNIQUE," +
                 "password VARCHAR (15)," +
                 "balance DOUBLE," +
-                "last_payment_date TEXT" +
+                "last_payment_date VARCHAR (15)" +
                 ");";
 
         Statement statement = connection.createStatement();

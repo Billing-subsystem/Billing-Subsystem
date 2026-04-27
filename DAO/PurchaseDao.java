@@ -26,8 +26,9 @@ public class PurchaseDao implements Dao<Purchase> {
     }
 
     @Override
-    public void save(Purchase purchase) throws SQLException {
+    public String save(Purchase purchase) throws SQLException {
 
+        return null;
     }
 
     @Override

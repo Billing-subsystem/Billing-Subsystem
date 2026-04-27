@@ -31,7 +31,7 @@ public class CreditCardDao implements Dao<CreditCard> {
     }
 
     @Override
-    public void save(CreditCard creditCard) throws SQLException {
+    public String save(CreditCard creditCard) throws SQLException {
         String sql = "INSERT OR REPLACE INTO CreditCard (creditCardNumber, expDate, CVV, accountID) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setLong(1, creditCard.getCreditCardNumber());
@@ -39,6 +39,7 @@ public class CreditCardDao implements Dao<CreditCard> {
         statement.setString(3, creditCard.getCVV());
         statement.setLong(4, creditCard.getAccountID());
         statement.executeUpdate();
+        return sql;
     }
 
     @Override
