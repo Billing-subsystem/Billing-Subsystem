@@ -63,12 +63,12 @@ public class AccountDao implements Dao<Account> {
 
     @Override
     public void update(Account account, String[] params) throws SQLException {
-
     }
 
     @Override
-    public void delete(Account account) {
-
+    public void delete(Account account) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM Account WHERE accountID = ?");
+        statement.setLong(1, account.getAccountID());
     }
 
     @Override
@@ -84,6 +84,24 @@ public class AccountDao implements Dao<Account> {
 
         Statement statement = connection.createStatement();
         statement.execute(instruction);
+    }
+
+    public Optional<Account> getUsername(String searchUserName) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account WHERE username = ?");
+        statement.setString(1, searchUserName);
+        ResultSet searchResult = statement.executeQuery();
+
+        long accountID = searchResult.getLong(1);
+        String username = searchResult.getString(2);
+        String email = searchResult.getString(3);
+        String password = searchResult.getString(4);
+        double balance = searchResult.getDouble(5);
+        String creditCardNumber = searchResult.getString(6);
+
+
+        Account resultAccount = new Account(accountID, username, email, password, balance, creditCardNumber);
+
+        return Optional.of(resultAccount);
     }
 
 }
