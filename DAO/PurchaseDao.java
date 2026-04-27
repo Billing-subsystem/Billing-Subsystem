@@ -2,7 +2,6 @@ package DAO;
 
 import Model.Purchase;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,33 +11,31 @@ import java.util.Optional;
 public class PurchaseDao implements Dao<Purchase> {
     private Connection connection;
 
-    public PurchaseDao(Connection connection) throws SQLException {
+    public PurchaseDao(Connection connection) {
         this.connection = connection;
     }
 
-
     @Override
-    public Optional<Purchase> get(long id) {
+    public Optional<Purchase> get(Purchase purchase) throws SQLException {
         return Optional.empty();
     }
 
     @Override
-    public List<Purchase> getAll() {
+    public List<Purchase> getAll() throws SQLException {
         return List.of();
     }
 
     @Override
-    public void save(Purchase purchase) {
+    public void save(Purchase purchase) throws SQLException {
 
     }
 
     @Override
-    public void update(Purchase purchase, String[] params) {
-
+    public void update(Purchase purchase, String[] params) throws SQLException {
     }
 
     @Override
-    public void delete(Purchase purchase) {
+    public void delete(Purchase purchase) throws SQLException {
 
     }
 

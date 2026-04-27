@@ -50,31 +50,48 @@ public class AccountDao implements Dao<Account> {
 
     @Override
     public void save(Account account) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (?, ?, ?, ?, ?, ?)");
-        statement.setLong(1, account.getAccountID());
-        statement.setString(2, account.getUsername());
-        statement.setString(3, account.getEmail());
-        statement.setString(4, account.getPassword());
-        statement.setDouble(5, account.getBalance());
-        statement.setString(6, account.getCreditCardNumber());
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Account VALUES (NULL, ?, ?, ?, ?, ?)");
+        statement.setString(1, account.getUsername());
+        statement.setString(2, account.getEmail());
+        statement.setString(3, account.getPassword());
+        statement.setDouble(4, account.getBalance());
+        statement.setString(5, account.getCreditCardNumber());
 
         statement.executeUpdate();
     }
 
     @Override
     public void update(Account account, String[] params) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("UPDATE Account SET " +
+                "username = ?," +
+                "email = ?," +
+                "password = ?," +
+                "balance = ?," +
+                "creditCardNumber = ? " +
+                "WHERE accountID = ?");
+
+        statement.setString(1, params[1]);
+        statement.setString(2, params[2]);
+        statement.setString(3, params[3]);
+        statement.setDouble(4, Double.parseDouble(params[4]));
+        statement.setString(5, params[5]);
+        statement.setLong(6, Long.parseLong(params[0]));
+
+        statement.executeUpdate();
     }
 
     @Override
     public void delete(Account account) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("DELETE FROM Account WHERE accountID = ?");
         statement.setLong(1, account.getAccountID());
+
+        statement.execute();
     }
 
     @Override
     public void createTable() throws SQLException {
         String instruction = "CREATE TABLE IF NOT EXISTS Account (" +
-                "accountID INTEGER PRIMARY KEY," +
+                "accountID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username VARCHAR (15)," +
                 "email VARCHAR (30)," +
                 "password VARCHAR (15)," +

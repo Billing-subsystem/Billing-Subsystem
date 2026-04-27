@@ -11,33 +11,31 @@ import java.util.Optional;
 public class CreditCardDao implements Dao<CreditCard> {
     private Connection connection;
 
-    public CreditCardDao(Connection connection) throws SQLException {
+    public CreditCardDao(Connection connection) {
         this.connection = connection;
     }
 
-
     @Override
-    public Optional<CreditCard> get(long id) {
+    public Optional<CreditCard> get(CreditCard creditCard) throws SQLException {
         return Optional.empty();
     }
 
     @Override
-    public List<CreditCard> getAll() {
+    public List<CreditCard> getAll() throws SQLException {
         return List.of();
     }
 
     @Override
-    public void save(CreditCard creditCard) {
+    public void save(CreditCard creditCard) throws SQLException {
 
     }
 
     @Override
-    public void update(CreditCard creditCard, String[] params) {
-
+    public void update(CreditCard creditCard, String[] params) throws SQLException {
     }
 
     @Override
-    public void delete(CreditCard creditCard) {
+    public void delete(CreditCard creditCard) throws SQLException {
 
     }
 

@@ -2,6 +2,7 @@ package Model;
 
 public class Account {
     private long accountID;
+    private static long accountIDTracker;
     private String username;
     private String email;
     private String password;
@@ -15,6 +16,12 @@ public class Account {
         this.password = password;
         this.balance = balance;
         this.creditCardNumber = creditCardNumber;
+    }
+
+    public Account(String username, String email, String password, double balance, String creditCardNumber) {
+        ++accountIDTracker;
+
+        this(accountIDTracker, username, email, password, balance, creditCardNumber);
     }
 
     public long getAccountID() {

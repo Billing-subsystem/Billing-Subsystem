@@ -2,41 +2,38 @@ package DAO;
 
 import Model.Address;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public class AddressDao implements Dao<Address> {
     private Connection connection;
 
-    public AddressDao(Connection connection) {
+    AddressDao(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Optional<Address> get(long id) {
+    public Optional<Address> get(Address address) throws SQLException {
         return Optional.empty();
     }
 
     @Override
-    public List<Address> getAll() {
+    public List<Address> getAll() throws SQLException {
         return List.of();
     }
 
     @Override
-    public void save(Address address) {
+    public void save(Address address) throws SQLException {
 
     }
 
     @Override
-    public void update(Address address, String[] params) {
-
+    public void update(Address address, String[] params) throws SQLException {
     }
 
     @Override
-    public void delete(Address address) {
+    public void delete(Address address) throws SQLException {
 
     }
 

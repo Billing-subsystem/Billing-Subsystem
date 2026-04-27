@@ -16,27 +16,26 @@ public class SubscriptionDao implements Dao<Subscription> {
     }
 
     @Override
-    public Optional<Subscription> get(long id) {
+    public Optional<Subscription> get(Subscription subscription) throws SQLException {
         return Optional.empty();
     }
 
     @Override
-    public List<Subscription> getAll() {
+    public List<Subscription> getAll() throws SQLException {
         return List.of();
     }
 
     @Override
-    public void save(Subscription subscription) {
+    public void save(Subscription subscription) throws SQLException {
 
     }
 
     @Override
-    public void update(Subscription subscription, String[] params) {
-
+    public void update(Subscription subscription, String[] params) throws SQLException {
     }
 
     @Override
-    public void delete(Subscription subscription) {
+    public void delete(Subscription subscription) throws SQLException {
 
     }
 
