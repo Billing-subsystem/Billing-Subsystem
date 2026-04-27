@@ -2,7 +2,7 @@ import Control.Server;
 
 import java.io.IOException;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         // Start the web server
         try {

@@ -14,6 +14,73 @@ public class AccountDao implements Dao<Account> {
         this.connection = connection;
     }
 
+    public AccountDao() throws SQLException {
+        this.connection = DBUtil.getConnection();
+    }
+
+    public String login(String email, String password) {
+        String sql = "SELECT accountID, username, balance, last_payment_date FROM Account WHERE email = ? AND password = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String date = rs.getString("last_payment_date");
+                return String.format(
+                    "{\"accountId\":%d,\"username\":\"%s\",\"balance\":%.2f,\"lastPaymentDate\":\"%s\"}",
+                    rs.getLong("accountID"),
+                    rs.getString("username"),
+                    rs.getDouble("balance"),
+                    date != null ? date : ""
+                );
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return "{\"accountId\":null}";
+    }
+
+    public String register(String username, String email, String password) {
+        String sql = "INSERT INTO Account (username, email, password, balance) VALUES (?, ?, ?, 0)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.executeUpdate();
+            return "{\"success\":true}";
+        } catch (SQLException e) { e.printStackTrace(); }
+        return "{\"success\":false}";
+    }
+
+    public String getAccountJson(long id) {
+        String sql = "SELECT accountID, username, email, balance, last_payment_date FROM Account WHERE accountID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String date = rs.getString("last_payment_date");
+                return String.format(
+                    "{\"accountId\":%d,\"username\":\"%s\",\"email\":\"%s\",\"balance\":%.2f,\"lastPaymentDate\":\"%s\"}",
+                    rs.getLong("accountID"),
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getDouble("balance"),
+                    date != null ? date : ""
+                );
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return "{}";
+    }
+
+    public void updateBalance(long id, double newBalance) {
+        String date = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+        String sql = "UPDATE Account SET balance = ?, last_payment_date = ? WHERE accountID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDouble(1, newBalance);
+            stmt.setString(2, date);
+            stmt.setLong(3, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
     @Override
     public Optional<Account> get(Account account) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Account WHERE accountID = ?");

@@ -3,6 +3,7 @@ package DAO;
 import Model.Subscription;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -13,6 +14,10 @@ public class SubscriptionDao implements Dao<Subscription> {
 
     public SubscriptionDao(Connection connection) throws SQLException {
         this.connection = connection;
+    }
+
+    public SubscriptionDao() throws SQLException {
+        this.connection = DBUtil.getConnection();
     }
 
     @Override
@@ -27,7 +32,13 @@ public class SubscriptionDao implements Dao<Subscription> {
 
     @Override
     public void save(Subscription subscription) throws SQLException {
-
+        String sql = "INSERT INTO Subscription (accountID, subscriptionType, status, initialDate) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setLong(1, subscription.getAccountID());
+        statement.setInt(2, subscription.getSubscriptionType());
+        statement.setString(3, "ACTIVE");
+        statement.setString(4, subscription.getInitialDate());
+        statement.executeUpdate();
     }
 
     @Override

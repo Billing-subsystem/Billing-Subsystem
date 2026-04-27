@@ -19,9 +19,7 @@ public class Account {
     }
 
     public Account(String username, String email, String password, double balance, String creditCardNumber) {
-        ++accountIDTracker;
-
-        this(accountIDTracker, username, email, password, balance, creditCardNumber);
+        this(++accountIDTracker, username, email, password, balance, creditCardNumber);
     }
 
     public long getAccountID() {
